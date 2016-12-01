@@ -68,7 +68,7 @@ class DualPlot(object):
         self._axright.set_ylabel(*args, **kwargs)
 
     def legend(self, *args, **kwargs):
-        lines = self._axright.lines + self._axleft.lines
+        lines = self._axleft.lines + self._axright.lines
         labels = [l.get_label() for l in lines]
         self._axleft.legend(lines, labels, *args, **kwargs)
 
