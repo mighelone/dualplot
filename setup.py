@@ -50,5 +50,5 @@ setup(
         "Programming Language :: Python :: 3.5",
     ],
     packages=find_packages(exclude=["contrib", "docs", "tests"]),
-    install_requires=["matplotlib", "future", "versioneer"],
+    install_requires=["matplotlib", "versioneer"],
 )

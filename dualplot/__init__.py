@@ -1,6 +1,4 @@
-from __future__ import division, absolute_import
-from __future__ import print_function, unicode_literals
-
+from typing import Optional, Union
 import matplotlib.pyplot as plt
 
 from ._version import get_versions
@@ -12,19 +10,24 @@ COL_RIGHT = "#C54E6D"
 COL_LEFT = "#009380"
 
 
-class DualPlot(object):
+class DualPlot:
     """
-    Create a plot figure with a dual plot using the style by 
+    Create a plot figure with a dual plot using the style by
     https://www.r-bloggers.com/dual-axes-time-series-plots-may-be-ok-sometimes-after-all/?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+RBloggers+%28R+bloggers%29
     """
 
-    def __init__(self, color_left=None, color_right=None, **fig_kw):
+    def __init__(
+        self,
+        color_left: Optional[str] = None,
+        color_right: Optional[str] = None,
+        **fig_kw,
+    ):
         self._fig, self._axleft = plt.subplots(**fig_kw)
         self._axright = self._axleft.twinx()
         self.col_left = color_left
         self.col_right = color_right
 
-    def _set_axleft(self):
+    def _set_axleft(self) -> None:
         """
         Set the left axis
         """
@@ -40,7 +43,7 @@ class DualPlot(object):
         ax.tick_params(axis="y", colors=self._col_left)
         # ax.set_ylabel('Sigmoid, m', color=self._col_left)
 
-    def _set_axright(self):
+    def _set_axright(self) -> None:
         """
         Set the right axis
         """
@@ -55,10 +58,10 @@ class DualPlot(object):
         # ax1.set_ylabel('Other scale', color=self._col_right)
         ax1.grid("off")
 
-    def set_xlabel(self, *args, **kwargs):
+    def set_xlabel(self, *args, **kwargs) -> None:
         self._axleft.set_xlabel(*args, **kwargs)
 
-    def set_ylabel_left(self, *args, **kwargs):
+    def set_ylabel_left(self, *args, **kwargs) -> None:
         if "color" not in kwargs:
             kwargs["color"] = self._col_left
         self._axleft.set_ylabel(*args, **kwargs)
@@ -78,10 +81,8 @@ class DualPlot(object):
         return self._col_right
 
     @col_right.setter
-    def col_right(self, color):
-        if color is None:
-            color = COL_RIGHT
-        self._col_right = color
+    def col_right(self, color: Union[str, None]):
+        self._col_right = color if color else COL_RIGHT
         self._set_axright()
 
     @property
@@ -89,10 +90,8 @@ class DualPlot(object):
         return self._col_left
 
     @col_left.setter
-    def col_left(self, color):
-        if color is None:
-            color = COL_LEFT
-        self._col_left = color
+    def col_left(self, color: Union[str, None]):
+        self._col_left = color if color else COL_LEFT
         self._set_axleft()
 
     def plot_left(self, *args, **kwargs):
