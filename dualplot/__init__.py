@@ -1,5 +1,4 @@
-from __future__ import division, absolute_import
-from __future__ import print_function, unicode_literals
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 import matplotlib.pyplot as plt
 
@@ -14,7 +13,7 @@ COL_LEFT = "#009380"
 
 class DualPlot(object):
     """
-    Create a plot figure with a dual plot using the style by 
+    Create a plot figure with a dual plot using the style by
     https://www.r-bloggers.com/dual-axes-time-series-plots-may-be-ok-sometimes-after-all/?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+RBloggers+%28R+bloggers%29
     """
 
