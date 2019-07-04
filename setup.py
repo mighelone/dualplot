@@ -51,4 +51,6 @@ setup(
     ],
     packages=find_packages(exclude=["contrib", "docs", "tests"]),
     install_requires=["matplotlib", "versioneer"],
+    setup_requires=["pytest-runner"],
+    test_requires=["pytest"],
 )
