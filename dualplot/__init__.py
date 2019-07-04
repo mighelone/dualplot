@@ -27,36 +27,20 @@ class DualPlot:
         self.col_left = color_left
         self.col_right = color_right
 
-    def _set_axleft(self) -> None:
-        """
-        Set the left axis
-        """
-        ax = self._axleft
+    def _set_ax_properties(self, ax: plt.Axes, side: str) -> None:
         ax.spines["top"].set_visible(False)
-        ax.spines["right"].set_visible(False)
         ax.spines["bottom"].set_position(("outward", 20))
-        ax.spines["left"].set_position(("outward", 20))
-        ax.spines["left"].set_color(self._col_left)
-        ax.spines["left"].set_color(self._col_left)
-        ax.yaxis.set_ticks_position("left")
+        side = side.lower()
+        assert side in ("left", "right"), "Only left and right side accepted"
+        opp_side = "left" if side == "right" else "right"
+        ax.spines[opp_side].set_visible(False)
+
+        color = self.col_right if side == "right" else self.col_left
+        ax.spines[side].set_position(("outward", 20))
+        ax.spines[side].set_color(color)
+        ax.yaxis.set_ticks_position(side)
         ax.xaxis.set_ticks_position("bottom")
-        ax.tick_params(axis="y", colors=self._col_left)
-        # ax.set_ylabel('Sigmoid, m', color=self._col_left)
-
-    def _set_axright(self) -> None:
-        """
-        Set the right axis
-        """
-        ax1 = self._axright
-        ax1.spines["top"].set_visible(False)
-        ax1.spines["left"].set_visible(False)
-        ax1.spines["bottom"].set_position(("outward", 20))
-        ax1.spines["right"].set_position(("outward", 20))
-        ax1.spines["right"].set_color(self._col_right)
-
-        ax1.tick_params(axis="y", colors=self._col_right)
-        # ax1.set_ylabel('Other scale', color=self._col_right)
-        ax1.grid("off")
+        ax.tick_params(axis="y", colors=color)
 
     def set_xlabel(self, *args, **kwargs) -> None:
         self._axleft.set_xlabel(*args, **kwargs)
@@ -83,7 +67,7 @@ class DualPlot:
     @col_right.setter
     def col_right(self, color: Union[str, None]):
         self._col_right = color if color else COL_RIGHT
-        self._set_axright()
+        self._set_ax_properties(ax=self.axright, side="right")
 
     @property
     def col_left(self):
@@ -92,7 +76,7 @@ class DualPlot:
     @col_left.setter
     def col_left(self, color: Union[str, None]):
         self._col_left = color if color else COL_LEFT
-        self._set_axleft()
+        self._set_ax_properties(ax=self.axleft, side="left")
 
     def plot_left(self, *args, **kwargs):
         """Add plot line on the left axis"""
